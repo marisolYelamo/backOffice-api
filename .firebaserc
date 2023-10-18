@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "backoffice-aac71",
+    "backoffice": "backoffice-aac71"
+  },
+  "targets": {},
+  "etags": {}
+}

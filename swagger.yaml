@@ -1,0 +1,971 @@
+---
+openapi: 3.0.0
+info:
+  title: Backoffice API
+  description: This is the API of the backoffice from some company
+  contact:
+    email: marisolrocioyelamo@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0-oas3
+servers:
+- url: http://api.example.com/v1
+  description: Main (production) server
+- url: http://staging-api.example.com
+  description: Internal development server
+paths:
+  /users:
+    get:
+      tags:
+      - Users
+      summary: search users
+      description: By passing in the appropriate options, you can search for users in the system
+      operationId: searchUsers
+      parameters:
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 50
+          minimum: 0
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: bad input parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+    post:
+      tags:
+      - Users
+      summary: add user
+      description: Adds user to the system
+      operationId: addUser
+      requestBody:
+        description: User item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        "201":
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "400":
+          description: Missing parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_1'
+        "409":
+          description: A user with the email sended already exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_409'
+  /users/{id}:
+    get:
+      tags:
+      - Users
+      summary: search user
+      description: By passing in the appropriate id, you can search for a specific user in the system
+      operationId: searchUser
+      parameters:
+      - name: id
+        in: path
+        description: Numeric ID of the landingData to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minimum: 1
+          type: integer
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "404":
+          description: bad input parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+  /users/invite:
+    post:
+      tags:
+      - Users
+      summary: invite user
+      description: |
+        By passing the correct options, you can invite a new user to use the system.
+      operationId: User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users_invite_body'
+      responses:
+        "200":
+          description: Invite
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: Invalid Parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_2'
+  /users/invited/{token}:
+    post:
+      tags:
+      - Users
+      summary: invited user
+      description: |
+        By sending a correct token, you can create a new user and add roles.
+      operationId: createInvitedUser
+      parameters:
+      - name: token
+        in: path
+        description: Token created to invite a user
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/invited_token_body'
+      responses:
+        "200":
+          description: Invite
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "400":
+          description: Invalid Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_3'
+  /users/auth/login:
+    post:
+      tags:
+      - Users
+      summary: login user
+      description: |
+        By passing the correct options, you can login to the system.
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth_login_body'
+      responses:
+        "200":
+          description: Correct login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_4'
+        "401":
+          description: Invalid Credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+  /users/auth/logout:
+    post:
+      tags:
+      - Users
+      summary: logout user
+      description: |
+        You can logout for the system.
+      operationId: logoutUser
+      responses:
+        "200":
+          description: Correct logout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_5'
+  /data/courses:
+    get:
+      tags:
+      - Courses
+      summary: search courses
+      description: By passing in the appropriate options, you can search for courses in the system
+      operationId: searchCourses
+      parameters:
+      - name: limit
+        in: query
+        description: maximum number of records to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          maximum: 50
+          minimum: 1
+          type: integer
+          format: int32
+          default: 10
+      - name: year
+        in: query
+        description: filter courses by year
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 2021
+          type: integer
+          format: int32
+          default: 2021
+      - name: page
+        in: query
+        description: page where start the searching
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          format: int32
+          default: 1
+      responses:
+        "200":
+          description: Search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_6'
+        "400":
+          description: Bad input parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+    post:
+      tags:
+      - Courses
+      summary: create course
+      description: Add course to the system
+      operationId: createCourse
+      requestBody:
+        description: Course item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        "201":
+          description: Course created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_1'
+        "400":
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_4'
+  /data/courses/{id}:
+    patch:
+      tags:
+      - Courses
+      summary: update course
+      description: Modify course data
+      operationId: updateCourse
+      parameters:
+      - name: id
+        in: path
+        description: Numeric ID of the course to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minimum: 1
+          type: integer
+      requestBody:
+        description: Course item to modify
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        "200":
+          description: Course updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_7'
+        "400":
+          description: Unexpected parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_5'
+  /data/typesofcourses:
+    post:
+      tags:
+      - Types of Courses
+      summary: create type of course
+      description: Add type of course to the system
+      operationId: createTypeOfCourse
+      requestBody:
+        description: Course item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeOfCourse'
+      responses:
+        "201":
+          description: Course created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_2'
+        "400":
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_6'
+  /data/landing:
+    get:
+      tags:
+      - Landing Data
+      summary: get landing data
+      operationId: getLandingData
+      responses:
+        "200":
+          description: Search all landing data in the system
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_8'
+    post:
+      tags:
+      - Landing Data
+      summary: create landing data
+      description: Add landing data to the system
+      operationId: createLandingData
+      requestBody:
+        description: Landing data item to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LandingData'
+      responses:
+        "201":
+          description: Data created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201_3'
+        "400":
+          description: Missing parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_7'
+  /data/landing/{id}:
+    patch:
+      tags:
+      - Landing Data
+      summary: update landing data
+      operationId: patchLandingData
+      parameters:
+      - name: id
+        in: path
+        description: Numeric ID of the landingData to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minimum: 1
+          type: integer
+      requestBody:
+        description: Course item to modify
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LandingData'
+      responses:
+        "200":
+          description: Course updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_9'
+        "400":
+          description: Unexpected parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400_8'
+components:
+  schemas:
+    User:
+      required:
+      - email
+      - firstName
+      - id
+      - lastName
+      - password
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: integer
+          format: id
+          readOnly: true
+          example: 1
+        firstName:
+          type: string
+          nullable: false
+          example: Roberto
+        lastName:
+          type: string
+          nullable: false
+          example: Gomez
+        email:
+          uniqueItems: true
+          type: string
+          format: email
+          nullable: false
+          example: roberto.gomez@gmail.com
+        password:
+          type: string
+          format: password
+          nullable: false
+          writeOnly: true
+          example: contraseña1234
+    Course:
+      required:
+      - availability
+      - cohortLabel
+      - endDate
+      - endHour
+      - id
+      - limitOfStudents
+      - limitToApply
+      - mode
+      - month
+      - priceARS
+      - priceUSD
+      - startDate
+      - startHour
+      - status
+      - type
+      - visibility
+      - weekDays
+      - year
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: integer
+          format: id
+          readOnly: true
+          example: 1
+        type:
+          oneOf:
+          - type: integer
+            description: Type course ID
+            format: id
+            nullable: false
+            example: 1
+          - $ref: '#/components/schemas/TypeOfCourse'
+        year:
+          type: number
+          nullable: false
+          example: 2021
+        month:
+          type: string
+          enum:
+          - enero
+          - febrero
+          - marzo
+          - abril
+          - mayo
+          - junio
+          - julio
+          - agosto
+          - septiembre
+          - octubre
+          - noviembre
+          - diciembre
+        mode:
+          type: string
+          enum:
+          - presencial
+          - remoto en vivo
+          - remoto a tu ritmo
+        startDate:
+          type: string
+          format: date
+          nullable: false
+        endDate:
+          type: string
+          format: date
+          nullable: false
+        startHour:
+          type: string
+          nullable: false
+          example: 08:00
+        endHour:
+          type: string
+          nullable: false
+          example: 18:00
+        weekDays:
+          type: string
+          nullable: false
+          example: Lun, Mie y Vie
+        cohortLabel:
+          uniqueItems: true
+          type: string
+          nullable: false
+          readOnly: true
+          example: BootcampEne2021
+        availability:
+          type: boolean
+          default: true
+        limitToApply:
+          type: string
+          format: date
+          nullable: false
+        limitOfStudents:
+          type: integer
+          nullable: false
+          example: 45
+        priceARS:
+          type: number
+          nullable: false
+          example: 1000
+        priceUSD:
+          type: number
+          nullable: false
+          example: 50
+        status:
+          type: string
+          default: disponible
+          enum:
+          - disponible
+          - en curso
+          - finalizado
+        visibility:
+          type: boolean
+          default: false
+    TypeOfCourse:
+      required:
+      - id
+      - name
+      - tag
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: integer
+          format: id
+          readOnly: true
+          example: 1
+        name:
+          type: string
+          nullable: false
+          example: Bootcamp
+        tag:
+          type: string
+          nullable: false
+          example: BC
+    LandingData:
+      required:
+      - concept
+      - description
+      - id
+      type: object
+      properties:
+        id:
+          uniqueItems: true
+          type: integer
+          format: id
+          readOnly: true
+          example: 1
+        concept:
+          uniqueItems: true
+          type: string
+          nullable: false
+          example: email
+        description:
+          type: string
+          nullable: false
+          example: admisiones@plataforma5.la
+    inline_response_200:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Users found.
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+    inline_response_400:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Bad input parameter.
+    inline_response_201:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: User created.
+        content:
+          $ref: '#/components/schemas/inline_response_201_content'
+    inline_response_400_1:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Missing parameters. Required: firstname, lastname, email, password.'
+    inline_response_409:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 409
+        message:
+          type: string
+          example: A user with the email roberto.gomez@gmail.com already exists
+    inline_response_200_1:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: User found.
+        content:
+          $ref: '#/components/schemas/inline_response_200_1_content'
+    inline_response_404:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: 'Not Found: User not found.'
+    usersinvite_roles:
+      type: object
+      properties:
+        "1":
+          type: array
+          description: idRole
+          example:
+          - 0
+          - 1
+          items:
+            type: number
+        "2":
+          type: array
+          description: idRole
+          example:
+          - 2
+          items:
+            type: number
+        viewer:
+          type: array
+          example: []
+          items:
+            type: number
+    users_invite_body:
+      type: object
+      properties:
+        email:
+          type: string
+          example: example@plataforma5.la
+        roles:
+          $ref: '#/components/schemas/usersinvite_roles'
+    inline_response_200_2:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: User example@plataforma5.la invited.
+        content:
+          type: string
+          example: Token to create user
+    inline_response_400_2:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Bad request. Missing parameters.
+    invited_token_body:
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          nullable: false
+          example: contraseña1234
+    inline_response_200_3:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: User created.
+        content:
+          $ref: '#/components/schemas/User'
+    inline_response_400_3:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Bad Request: A user with email roberto.gomez@gmail.com already exists'
+    auth_login_body:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          nullable: false
+          example: roberto.gomez@gmail.com
+        password:
+          type: string
+          format: password
+          nullable: false
+          example: contraseña1234
+    inline_response_200_4:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: User logged in.
+        content:
+          type: string
+          example: Token login
+    inline_response_401:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Invalid password.
+    inline_response_200_5:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Successful logout.
+    inline_response_200_6:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Users found.
+        content:
+          $ref: '#/components/schemas/inline_response_200_6_content'
+    inline_response_201_1:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Course created.
+        content:
+          $ref: '#/components/schemas/Course'
+    inline_response_400_4:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Missing parameters. Required: type, year, weekDays, status.'
+    inline_response_200_7:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Course updated.
+        content:
+          $ref: '#/components/schemas/Course'
+    inline_response_400_5:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Bad Request: Unexpected parameters. Not allowed: typpe.'
+    inline_response_201_2:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 201
+        message:
+          type: string
+          example: Type of course created.
+        content:
+          $ref: '#/components/schemas/TypeOfCourse'
+    inline_response_400_6:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Missing parameters. Required: name, tag.'
+    inline_response_200_8:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Landing information found.
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/LandingData'
+    inline_response_201_3:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 201
+        message:
+          type: string
+          example: Type of course created.
+        content:
+          $ref: '#/components/schemas/LandingData'
+    inline_response_400_7:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Missing parameters. Required: concept, description.'
+    inline_response_200_9:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: LandingData updated.
+        content:
+          $ref: '#/components/schemas/LandingData'
+    inline_response_400_8:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: 'Bad Request: Unexpected parameters. Not allowed: conceptt.'
+    inline_response_201_content:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+    inline_response_200_1_content:
+      type: object
+      properties:
+        roles:
+          type: object
+          example:
+            role1:
+            - module1
+            - module2
+    inline_response_200_6_content:
+      type: object
+      properties:
+        totalItems:
+          type: number
+          example: 67
+        totalPages:
+          type: number
+          example: 7
+        currentPage:
+          type: number
+          example: 1
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
