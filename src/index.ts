@@ -69,4 +69,4 @@ app.listen(PORT, () => {
   console.log(`Backoffice server listening at http://localhost:${PORT}`);
 });
 
-exports.api = functions.https.onRequest(app)
+exports.bigben = functions.https.onRequest(app)
