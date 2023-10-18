@@ -1,0 +1,80 @@
+- group: landing
+  permissions:
+    - resource: /*
+      methods: "*"
+      action: deny
+      subRoutes:
+        - resource: "v1/data/courses"
+          methods:
+            - GET
+          action: allow
+        - resource: "v1/cohorts"
+          methods:
+            - GET
+          action: allow
+        - resource: "v1/commissions/:id/users"
+          methods:
+            - POST
+          action: allow
+- group: pledu
+  permissions:
+    - resource: /*
+      methods: "*"
+      action: deny
+      subRoutes:
+        - resource: "v1/data/courses"
+          methods:
+            - GET
+          action: allow
+        - resource: "v1/data/courses/:id"
+          methods:
+            - GET
+          action: allow
+        - resource: "v1/cohorts"
+          methods:
+            - GET
+          action: allow
+        - resource: "/v1/commissions/:id/users"
+          methods:
+            - POST
+          action: allow
+- group: bot
+  permissions:
+    - resource: /*
+      methods: "*"
+      action: deny
+      subRoutes:
+        - resource: "v1/commissions/users/:id"
+          methods:
+            - GET
+          action: allow
+- group: admin
+  permissions:
+    - resource: /*
+      methods: "*"
+      action: allow
+- group: editor
+  permissions:
+    - resource: /*
+      methods: "*"
+      action: allow
+- group: viewer
+  permissions:
+    - resource: /*
+      methods:
+        - GET
+      action: allow
+- group: anonymous
+  permissions:
+    - resource: /*
+      methods: "*"
+      action: deny
+      subRoutes:
+        - resource: "v1/roles/user"
+          methods:
+            - GET
+          action: allow
+        - resource: "v1/data/courses"
+          methods:
+            - GET
+          action: allow
