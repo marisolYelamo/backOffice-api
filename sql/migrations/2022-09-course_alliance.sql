@@ -1,0 +1,1 @@
+ALTER TABLE courses ADD "alliance" character varying(180);

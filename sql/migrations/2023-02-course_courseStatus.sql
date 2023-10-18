@@ -1,0 +1,1 @@
+ALTER TYPE public."courseStatus" ADD VALUE 'proximamente' AFTER 'finalizado';

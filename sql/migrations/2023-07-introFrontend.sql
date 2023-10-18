@@ -1,0 +1,1 @@
+INSERT INTO "typesOfCourses" (name, tag) VALUES ('intro frontend', 'INTRO_FRONTEND')
