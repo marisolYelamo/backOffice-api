@@ -1,0 +1,8 @@
+node_modules
+pgdata
+coverage
+package-lock.json
+out
+email_templates
+.env
+dist/

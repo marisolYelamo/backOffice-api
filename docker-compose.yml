@@ -1,0 +1,65 @@
+version: "3.7"
+services:
+  local:
+    build: .
+    image: backoffice_api
+    container_name: backoffice_api_local
+    ports:
+      - 4002:4002
+    volumes:
+      - ./src:/api/src
+    depends_on:
+      - dataDb
+    environment:
+      NODE_ENV: local
+    env_file:
+      - .env
+    entrypoint: "npm run dev"
+    networks:
+      - backoffice_network
+      - plataforma_educativa_network
+  dataDb:
+    image: postgres:14.0-alpine
+    container_name: backoffice_dataDb
+    ports:
+      - 5432
+    restart: always
+    environment:
+      DATA_DB_NAME: data_backoffice
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+      - ./sql/1-schema/2022.05-schema.sql:/docker-entrypoint-initdb.d/1-schema-dataDb.sql
+    networks:
+      - backoffice_network
+  test:
+    build: .
+    image: backoffice_api
+    container_name: backoffice_api_test
+    volumes:
+      - ./src:/api/src
+      - ./coverage/unit:/api/coverage
+      - ./package.json:/api/package.json
+    environment:
+      NODE_ENV: test
+    env_file:
+      - .env
+    entrypoint: "npm test"
+  integration-test:
+    build: .
+    image: backoffice_api
+    container_name: backoffice_api_integration
+    volumes:
+      - ./src:/api/src
+      - ./coverage/integration:/api/coverage
+    environment:
+      NODE_ENV: test
+    depends_on:
+      - dataDb
+    entrypoint: "npm run integration"
+networks:
+  backoffice_network:
+    name: backoffice_network
+  plataforma_educativa_network:
+    external: true
