@@ -8,7 +8,6 @@ import authMiddleware from "../middlewares/authMiddleware";
 import acl from "../acl";
 
 const router = express.Router();
-
 router.use("/users", UsersRoutes);
 
 // Routes with access for logged in user
@@ -19,4 +18,7 @@ router.use("/cohorts", CohortRoutes);
 
 router.use("/commissions", CommissionRoutes);
 
+// Auth middleware
+router.use(authMiddleware);
+router.use(acl.authorize);
 export default router;

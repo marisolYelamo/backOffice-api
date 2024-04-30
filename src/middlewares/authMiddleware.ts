@@ -3,7 +3,10 @@ import { verifyJWT, forceDecodeJWT } from "../utils/jwt";
 import httpStatusCodes from "../utils/http/httpStatusCodes";
 import findMaxRole from "../utils/findMaxRole";
 const { UNAUTHORIZED } = httpStatusCodes;
-
+interface IDecode {
+  user: any;
+  service: string;
+}
 const authMiddleware = async (req, _res, next) => {
   try {
     if (!req.headers.authorization)
@@ -13,15 +16,15 @@ const authMiddleware = async (req, _res, next) => {
 
     if (!token) throw new Api401Error("Authorization token missing");
 
-    const decode = forceDecodeJWT(token);
+    const decode = forceDecodeJWT(token) as IDecode;
 
-    if (!decode.user && !decode.service)
+    if (!decode?.user && !decode?.service)
       throw new Api403Error("Not allowed to access resource");
 
     verifyJWT(token);
 
-    if (decode.service) {
-      switch (decode.service) {
+    if (decode && decode?.service) {
+      switch (decode?.service) {
         case "discord-bot":
           req.role = "bot";
           break;

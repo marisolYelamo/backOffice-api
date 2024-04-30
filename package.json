@@ -7,7 +7,7 @@
     "prepare": "husky install",
     "start": "node dist/src",
     "dev": "tsc -w & nodemon .",
-    "build": "tsc",
+    "build": "npm run lint && tsc",
     "test": "jest --watchAll --coverage --colors",
     "integration": "jest --watchAll --coverage --colors jest.config.integration.js --detectOpenHandles",
     "build-doc": "jsdoc -c jsdoc.json -r ./src",

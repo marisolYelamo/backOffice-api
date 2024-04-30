@@ -37,7 +37,7 @@ export const dataDb = {
 };
 
 export const jwtConfig = {
-  secretKey: process.env[requiredEnv.API_SECRET],
+  secretKey: process.env[requiredEnv.API_SECRET] || "",
 };
 
 export const localhosts = [

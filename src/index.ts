@@ -8,7 +8,7 @@ import httpStatusCodes from "./utils/http/httpStatusCodes";
 import routes from "./routes";
 import { ApiErrors } from "./utils/http/httpErrors";
 import { formattedNowDate } from "./utils/formatDate";
-import functions from "firebase-functions"
+import functions from "firebase-functions";
 
 const app = express();
 const { json, urlencoded } = express;
@@ -28,7 +28,7 @@ const origin: any = shouldAcceptLocalHosts ? [...hosts, ...localHosts] : hosts; 
 app.use(json());
 app.use(
   cors({
-    origin,
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     credentials: true,
   })
@@ -69,4 +69,4 @@ app.listen(PORT, () => {
   console.log(`Backoffice server listening at http://localhost:${PORT}`);
 });
 
-exports.bigben = functions.https.onRequest(app)
+exports.api = functions.https.onRequest(app);
