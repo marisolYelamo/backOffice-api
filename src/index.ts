@@ -12,18 +12,20 @@ import functions from "firebase-functions";
 
 const app = express();
 const { json, urlencoded } = express;
-const { PORT, ENV, BACKOFFICE_CLIENT_HOST, PLEDU_CLIENT_HOST } = envVar.config;
-const localHosts = envVar.localhosts;
+// eslint-disable-next-line import/no-named-as-default-member
+const { PORT } = envVar.config;
+
+/* const localHosts = envVar.localhosts; */
 const { INTERNAL_SERVER } = httpStatusCodes;
 
 dataDB.connect();
 
 // Middlewares
+/*
+const hosts = [BACKOFFICE_CLIENT_HOST, PLEDU_CLIENT_HOST]; */
+/* const shouldAcceptLocalHosts = ENV === "development" || ENV === "local"; */
 
-const hosts = [BACKOFFICE_CLIENT_HOST, PLEDU_CLIENT_HOST];
-const shouldAcceptLocalHosts = ENV === "development" || ENV === "local";
-
-const origin: any = shouldAcceptLocalHosts ? [...hosts, ...localHosts] : hosts; //needs typing
+//const origin: any = shouldAcceptLocalHosts ? [...hosts, ...localHosts] : hosts; //needs typing
 
 app.use(json());
 app.use(
