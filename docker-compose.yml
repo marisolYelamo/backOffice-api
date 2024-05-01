@@ -19,7 +19,7 @@ services:
       - backoffice_network
       - plataforma_educativa_network
   dataDb:
-    image: postgres:14.0-alpine
+    image: postgres:16
     container_name: backoffice_dataDb
     ports:
       - 5432
