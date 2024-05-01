@@ -7,7 +7,7 @@ services:
     ports:
       - 4002:4002
     volumes:
-      - ./src:/api/src
+      - ./src:/src
     depends_on:
       - dataDb
     environment:
@@ -26,38 +26,15 @@ services:
     restart: always
     environment:
       DATA_DB_NAME: data_backoffice
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      DATA_DB_HOST: dpg-cookgru3e1ms73b7jdl0-a
+      POSTGRES_USER: marisol
+      POSTGRES_PASSWORD: 66qPTynlBto5XXE0MNUMk8pnjrKjiWkw
     volumes:
       - ./pgdata:/var/lib/postgresql/data
       - ./sql/1-schema/2022.05-schema.sql:/docker-entrypoint-initdb.d/1-schema-dataDb.sql
     networks:
       - backoffice_network
-  test:
-    build: .
-    image: backoffice_api
-    container_name: backoffice_api_test
-    volumes:
-      - ./src:/api/src
-      - ./coverage/unit:/api/coverage
-      - ./package.json:/api/package.json
-    environment:
-      NODE_ENV: test
-    env_file:
-      - .env
-    entrypoint: "npm test"
-  integration-test:
-    build: .
-    image: backoffice_api
-    container_name: backoffice_api_integration
-    volumes:
-      - ./src:/api/src
-      - ./coverage/integration:/api/coverage
-    environment:
-      NODE_ENV: test
-    depends_on:
-      - dataDb
-    entrypoint: "npm run integration"
+  
 networks:
   backoffice_network:
     name: backoffice_network

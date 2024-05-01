@@ -8,7 +8,6 @@ import httpStatusCodes from "./utils/http/httpStatusCodes";
 import routes from "./routes";
 import { ApiErrors } from "./utils/http/httpErrors";
 import { formattedNowDate } from "./utils/formatDate";
-import functions from "firebase-functions";
 
 const app = express();
 const { json, urlencoded } = express;
@@ -70,5 +69,3 @@ app.use((error: Error | ApiErrors, _req, res, _next) => {
 app.listen(PORT, () => {
   console.log(`Backoffice server listening at http://localhost:${PORT}`);
 });
-
-exports.api = functions.https.onRequest(app);

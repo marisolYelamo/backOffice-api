@@ -12,8 +12,7 @@
     "integration": "jest --watchAll --coverage --colors jest.config.integration.js --detectOpenHandles",
     "build-doc": "jsdoc -c jsdoc.json -r ./src",
     "lint": "eslint \"**/*.ts\" --ignore-path .gitignore",
-    "format": "prettier \"**/*.ts\" --write --ignore-path .gitignore",
-    "deploy": "firebase deploy --only functions:api"
+    "format": "prettier \"**/*.ts\" --write --ignore-path .gitignore"
   },
   "repository": {
     "type": "git",
