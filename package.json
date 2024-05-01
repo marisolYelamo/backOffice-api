@@ -5,7 +5,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "prepare": "husky install",
-    "start": "node dist/src",
+    "start": "node dist/src/index.js",
     "dev": "tsc -w & nodemon .",
     "build": "npm run lint && tsc",
     "test": "jest --watchAll --coverage --colors",
