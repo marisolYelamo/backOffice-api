@@ -20,7 +20,7 @@ class AuthDao {
 
   static async getUser(email) {
     const psql = `SELECT * FROM users WHERE email = $1`;
-    const res = await query(psql, email);
+    const res = await query(psql, [email]);
     return res.rows[0];
   }
 }
