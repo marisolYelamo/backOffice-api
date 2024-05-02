@@ -4,11 +4,12 @@ import dataDB from "../repositories/dataDb.repository";
 const { query } = dataDB;
 class AuthDao {
   static async register(body) {
+    const hashPass = await hashPassword(body.password);
     const user = {
       firstName: body.firstName,
       lastName: body.lastName,
       email: body.email,
-      password: hashPassword(body.password),
+      password: hashPass,
       secretKey: "",
     };
     const { psql, queryParams } = createInsertQuery("users", user, true);
