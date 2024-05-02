@@ -388,10 +388,10 @@ COPY public.roles (id, name) FROM stdin;
 --
 
 COPY public."typesOfCourses" (id, name, tag) FROM stdin;
-3	Salesforce Bootcamp	BC_SALESFORCE
-1	JavaScript Bootcamp	BC_JAVASCRIPT
-2	Curso Introductorio (Con Profesor)	INTRO_JAVASCRIPT
-4	Curso Introductorio (A Tu Ritmo)	INTRO_JAVASCRIPT_ATR
+3	Programacion  PR
+1	Poesia  PO
+2	Diseño  DI
+4	Japones  JA
 \.
 
 
@@ -418,7 +418,9 @@ COPY public.users (id, "firstName", "lastName", email, password, "secretKey") FR
 4	Test	User	testUser@plataforma5.la	$2b$10$JEpYEpLjBpzMsUOMs26gpeI0ciaDff3VPutCoQ1agJDJSAQ78CYUW	f23167b0d23011ec912277687a15679a
 \.
 
-
+COPY public.users (id, "firstName", "lastName", email, password, "secretKey") FROM stdin;
+4	Test	User	testUser@gmail.com	$2b$10$JEpYEpLjBpzMsUOMs26gpeI0ciaDff3VPutCoQ1agJDJSAQ78CYUW	f23167b0d23011ec912277687a15679a
+\.
 --
 -- Data for Name: users_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -440,7 +442,10 @@ COPY public.users_roles (id, "idUser", "idRole", "idModule") FROM stdin;
 14	7	1	2
 \.
 
-
+COPY public.users_roles (id, "idUser", "idRole", "idModule") FROM stdin;
+7	4	1	1
+8	4	1	2
+\.
 --
 -- Name: courses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
