@@ -17,7 +17,7 @@ class AuthController {
     try {
       const login = await AuthService.login(req.body.email, req.body.password);
       res.status(OK).json(success(OK, "User login.", login));
-    } catch (err) {
+    } catch (error) {
       checkAndHandleErrors(error, next);
     }
   }
