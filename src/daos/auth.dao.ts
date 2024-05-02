@@ -1,7 +1,9 @@
 import { hashPassword } from "../utils/bcrypt";
+import { jwtConfig } from "../config";
 import createInsertQuery from "../utils/queryCreators/insertQueryCreator";
 import dataDB from "../repositories/dataDb.repository";
 const { query } = dataDB;
+const { secretKey } = jwtConfig;
 class AuthDao {
   static async register(body) {
     const hashPass = await hashPassword(body.password);
@@ -10,7 +12,7 @@ class AuthDao {
       lastName: body.lastName,
       email: body.email,
       password: hashPass,
-      secretKey: "",
+      secretKey,
     };
     const { psql, queryParams } = createInsertQuery("users", user, true);
     const res = await query(psql, queryParams);
