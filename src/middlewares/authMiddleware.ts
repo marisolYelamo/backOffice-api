@@ -17,7 +17,7 @@ const authMiddleware = async (req, _res, next) => {
     if (!token) throw new Api401Error("Authorization token missing");
 
     const decode = forceDecodeJWT(token) as IDecode;
-
+    console.log("DECODE", decode);
     if (!decode?.user && !decode?.service)
       throw new Api403Error("Not allowed to access resource");
 
