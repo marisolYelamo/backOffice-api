@@ -1,6 +1,7 @@
 import { Api401Error, Api403Error } from "../utils/http/httpErrors";
 import { verifyJWT, forceDecodeJWT } from "../utils/jwt";
 import httpStatusCodes from "../utils/http/httpStatusCodes";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import findMaxRole from "../utils/findMaxRole";
 const { UNAUTHORIZED } = httpStatusCodes;
 interface IDecode {
