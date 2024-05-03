@@ -4,8 +4,8 @@ import httpStatusCodes from "../utils/http/httpStatusCodes";
 import findMaxRole from "../utils/findMaxRole";
 const { UNAUTHORIZED } = httpStatusCodes;
 interface IDecode {
-  user: any;
-  service: string;
+  content: any;
+  iat: number;
 }
 const authMiddleware = async (req, _res, next) => {
   try {
@@ -18,29 +18,12 @@ const authMiddleware = async (req, _res, next) => {
 
     const decode = forceDecodeJWT(token) as IDecode;
     console.log("DECODE", decode);
-    if (!decode?.user && !decode?.service)
+    if (!decode?.content.email)
       throw new Api403Error("Not allowed to access resource");
 
     verifyJWT(token);
 
-    if (decode && decode?.service) {
-      switch (decode?.service) {
-        case "discord-bot":
-          req.role = "bot";
-          break;
-        case "pledu-bff":
-          req.role = "pledu";
-          break;
-        case "landing-bff":
-          req.role = "landing";
-          break;
-      }
-    } else {
-      req.role = decode?.user?.roles
-        ? findMaxRole(decode.user.roles)
-        : "anonymous";
-      req.user = decode.user;
-    }
+    req.user = decode.content;
 
     next();
   } catch (err) {
