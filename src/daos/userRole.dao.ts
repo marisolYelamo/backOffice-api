@@ -1,5 +1,4 @@
 import dataDB from "../repositories/dataDb.repository";
-import psql from "../repositories/psql.respository";
 const { query } = dataDB;
 //needs ts
 
