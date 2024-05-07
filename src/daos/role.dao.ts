@@ -29,6 +29,20 @@ class RoleDao {
     const res = await query(psql);
     return res.rows;
   }
+
+  static async getUsersByRoles(roleId) {
+    const psql = `SELECT userRole."idUser", 
+    json_agg(json_build_object(
+    'id', users.id, 
+    'email', users.email, 
+    'role', roleUser.name)) 
+    FROM users JOIN users_roles AS userRole ON userRole."idUser" = users.id 
+    JOIN roles as roleUser ON userRole."idRole"= roleUser.id 
+    WHERE userRole."idRole"=${roleId} 
+    GROUP BY userRole."idUser"`;
+    const res = await query(psql);
+    return res.rows;
+  }
 }
 
 export default RoleDao;

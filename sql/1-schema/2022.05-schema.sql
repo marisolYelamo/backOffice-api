@@ -432,14 +432,12 @@ COPY public.users_roles (id, "idUser", "idRole", "idModule") FROM stdin;
 4	2	1	2
 5	3	1	1
 6	3	1	2
-7	4	1	1
-8	4	1	2
-9	5	1	1
-10	5	1	2
-11	6	1	1
-12	6	1	2
-13	7	1	1
-14	7	1	2
+7	1	1	1
+8	1	1	2
+9	1	2	1
+10	1	2	2
+11	1	3	1
+12	1	3	2
 \.
 
 COPY public.users_roles (id, "idUser", "idRole", "idModule") FROM stdin;

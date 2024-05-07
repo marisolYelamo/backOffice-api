@@ -1,4 +1,5 @@
 import AuthDao from "../daos/auth.dao";
+import userRoleDao from "../daos/userRole.dao";
 import { comparePassword } from "../utils/bcrypt";
 import { createJWT } from "../utils/jwt";
 import { jwtConfig } from "../config";
@@ -6,6 +7,7 @@ const { secretKey } = jwtConfig;
 class AuthService {
   static async register(body) {
     const newUser = await AuthDao.register(body);
+    await userRoleDao.addUserRoles(newUser.id, 3);
     return newUser;
   }
   static async login(email, password) {

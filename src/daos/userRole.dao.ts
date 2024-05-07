@@ -1,4 +1,5 @@
 import dataDB from "../repositories/dataDb.repository";
+import psql from "../repositories/psql.respository";
 const { query } = dataDB;
 //needs ts
 
@@ -44,6 +45,12 @@ class userRoleDao {
 
     await query(transactionSql);
     return res.rows;
+  }
+
+  static async addUserRoles(userId, roleId) {
+    const psql = `INSERT INTO users_roles ("idUser", "idModule", "idRole") VALUES (${userId}, 1, ${roleId})`;
+    const res = await query(psql);
+    return res.rows[0];
   }
 }
 

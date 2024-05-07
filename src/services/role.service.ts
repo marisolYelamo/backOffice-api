@@ -39,6 +39,13 @@ class RoleService {
     if (!data) throw new ServiceError("not_found", "Roles not found.");
     return data;
   }
+
+  static async getUsersByRoles(roleId) {
+    const data = await RoleDao.getUsersByRoles(roleId);
+    if (!data)
+      throw new ServiceError("not_found", "Users with this roles not found.");
+    return data;
+  }
 }
 
 export default RoleService;

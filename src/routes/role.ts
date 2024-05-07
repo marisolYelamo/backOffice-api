@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get("/", RoleController.getRoles);
 router.get("/user", RoleController.getUserRole);
+router.get("/:id/users", RoleController.getUsersByRoles);
 
 export default router;
