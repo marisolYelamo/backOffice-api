@@ -2,10 +2,15 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 
 const hashPassword = async (password) => {
-  const salt = await bcrypt.genSalt();
+  const salt = genSalt();
   const hash = await bcrypt.hash(password, salt);
-  return hash;
+  return { hash, salt };
 };
+
+export const genSalt = (): string => {
+  return crypto.randomBytes(64).toString("hex");
+};
+
 const rebuildPasswordHash = (password, salt) => {
   return crypto
     .createHmac("sha1", salt)

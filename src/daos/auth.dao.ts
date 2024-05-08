@@ -6,12 +6,13 @@ const { query } = dataDB;
 const { secretKey } = jwtConfig;
 class AuthDao {
   static async register(body) {
-    const hashPass = await hashPassword(body.password);
+    const { hash, salt } = await hashPassword(body.password);
     const user = {
       firstName: body.firstName,
       lastName: body.lastName,
       email: body.email,
-      password: hashPass,
+      password: hash,
+      salt,
       secretKey,
     };
     const { psql, queryParams } = createInsertQuery("users", user, true);
