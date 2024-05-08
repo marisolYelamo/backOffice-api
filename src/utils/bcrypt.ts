@@ -12,11 +12,7 @@ const rebuildPasswordHash = (password, salt) => {
     .update(salt + password)
     .digest("hex");
 };
-<<<<<<< HEAD
 const comparePassword = (password, salt, hash) => {
-=======
-const comparePassword = async (password, salt, hash) => {
->>>>>>> 22c5c452bdc8cf430e31f3ff7777aab908ae0d19
   const rebuildPass = rebuildPasswordHash(password, salt);
   return rebuildPass === hash;
 };

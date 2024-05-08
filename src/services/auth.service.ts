@@ -1,6 +1,6 @@
 import AuthDao from "../daos/auth.dao";
 import userRoleDao from "../daos/userRole.dao";
-import { comparePassword, rebuildPasswordHash } from "../utils/bcrypt";
+import { comparePassword } from "../utils/bcrypt";
 import { createJWT } from "../utils/jwt";
 import { jwtConfig } from "../config";
 const { secretKey } = jwtConfig;
@@ -12,8 +12,7 @@ class AuthService {
   }
   static async login(email, password) {
     const user = await AuthDao.getUser(email);
-    const userPassword = rebuildPasswordHash(user.password, user.salt);
-    const validPassword = comparePassword(password, user.salt, userPassword);
+    const validPassword = comparePassword(password, user.salt, user.password);
     if (!validPassword) {
       throw Error("invalid password");
     } else {
