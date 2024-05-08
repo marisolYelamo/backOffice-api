@@ -21,5 +21,15 @@ class AuthController {
       checkAndHandleErrors(error, next);
     }
   }
+
+  public static async me(req, res, next) {
+    try {
+      if (!req.user || !req.user.id) throw new Error("You are not logged in");
+      const user = await AuthService.getUserByPk(req.user.id);
+      res.status(200).json(success(OK, "Find User", user));
+    } catch (err) {
+      checkAndHandleErrors(err, next);
+    }
+  }
 }
 export default AuthController;

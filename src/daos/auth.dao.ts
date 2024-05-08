@@ -25,6 +25,12 @@ class AuthDao {
     const res = await query(psql, [email]);
     return res.rows[0];
   }
+
+  static async getUserById(id) {
+    const psql = `SELECT * FROM users WHERE id = $1`;
+    const res = await query(psql, [id]);
+    return res.rows[0];
+  }
 }
 
 export default AuthDao;

@@ -20,6 +20,10 @@ class AuthService {
       return { token, email: user.email };
     }
   }
+  static async getUserByPk(id) {
+    const user = await AuthDao.getUserById(id);
+    return user;
+  }
 }
 
 export default AuthService;
