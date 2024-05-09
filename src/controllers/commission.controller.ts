@@ -97,7 +97,7 @@ class CommissionController {
     const requiredAndAllowedParameters = ["users"];
 
     try {
-      console.log("REQ", req.body.users, req.body["users"])
+      console.log("REQ", req.body.users, req.body["users"]);
       checkMissingParameters(req.body, requiredAndAllowedParameters);
       checkNotAllowedParameters(req.body, requiredAndAllowedParameters);
 
