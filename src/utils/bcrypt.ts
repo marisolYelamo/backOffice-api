@@ -8,7 +8,9 @@ const hashPassword = async (password) => {
 };
 
 export const genSalt = (): string => {
-  return crypto.randomBytes(64).toString("hex");
+  const numRounds = 16;
+  const saltValue = crypto.randomBytes(16).toString("hex");
+  return `$2a$${numRounds}$${saltValue}`;
 };
 
 const rebuildPasswordHash = (password, salt) => {
