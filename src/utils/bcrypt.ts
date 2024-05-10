@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 const hashPassword = async (password) => {
   const salt = genSalt();
-  const hash = await bcrypt.hash(password, salt);
+  const hash = rebuildPasswordHash(password, salt);
   return { hash, salt };
 };
 
